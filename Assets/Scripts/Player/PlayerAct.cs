@@ -74,7 +74,7 @@ public class PlayerAct : MonoBehaviour
     {
         if (!isActing && holdingObj != null)
         {
-            if (holdingObj.TryGetComponent(out Gun gun))
+            if (holdingObj.TryGetComponent(out Gun gun) && !gun.isCatching)
             {
                 animator.SetBool("Shot", true);
                 gun.ShotGun();
@@ -86,11 +86,13 @@ public class PlayerAct : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1) && holdingObj != null)
         {
-            animator.SetBool("Throw", true);
-
-            if (holdingObj.TryGetComponent(out Gun gun) && !isActing) //총을 들고 있을 경우 실행
+            if (holdingObj.TryGetComponent(out Gun gun))
             {
-                gun.ThrowMotion();
+                if (!isActing && !gun.isCatching)
+                {
+                    animator.SetBool("Throw", true);
+                    gun.Throwing();
+                }
             }
         }
         else

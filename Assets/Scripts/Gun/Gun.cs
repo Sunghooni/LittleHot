@@ -4,28 +4,34 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    [Header("Source")]
-    public GameObject player;
-    public GameObject playerHand;
-    public GameObject handIK;
+    public GameObject Bullet;
 
     [Header("State")]
+    public bool isCatching = false;
     public bool isHolded = false;
     public bool isThrowing = false;
 
+    private GameObject player;
+    private GameObject playerHand;
+    private GameObject handIK;
     private Transform tr;
     private Rigidbody rb;
     private Transform playerTr;
-    private const float fixedRotY = -90;
 
+    private const float throwPower = 10;
+    private const float fixedRotY = 90;
     private PlayerState playerState;
 
     private void Awake()
     {
         tr = gameObject.GetComponent<Transform>();
         rb = gameObject.GetComponent<Rigidbody>();
-        playerTr = player.GetComponent<Transform>();
+
         playerState = PlayerState.GetInstance();
+        player = playerState.Player;
+        playerTr = player.GetComponent<Transform>();
+        playerHand = playerState.gunAimPos;
+        handIK = playerState.gunThrowPos;
     }
 
     private void FixedUpdate()
@@ -38,20 +44,19 @@ public class Gun : MonoBehaviour
 
     public void HoldedToHand()
     {
-        StartCoroutine(MoveToPos());
+        StartCoroutine(MoveToHand());
     }
 
-    IEnumerator MoveToPos()
+    IEnumerator MoveToHand()
     {
         float timer = 0;
         Vector3 originPos = tr.position;
         Vector3 originRot = tr.eulerAngles;
 
+        isCatching = true;
         rb.useGravity = false;
         playerState.isHolding = true;
         gameObject.GetComponent<MeshCollider>().isTrigger = true;
-
-        yield return new WaitForSeconds(0.3f);
 
         while (timer <= 1f)
         {
@@ -68,6 +73,7 @@ public class Gun : MonoBehaviour
         }
 
         isHolded = true;
+        isCatching = false;
     }
 
     private void HoldingToHand()
@@ -80,18 +86,29 @@ public class Gun : MonoBehaviour
 
     public void ShotGun()
     {
+        FlyBullet();
         StartCoroutine(ShotMotion());
+    }
+
+    private void FlyBullet()
+    {
+        Vector3 startPos = gameObject.transform.GetChild(0).position;
+        Vector3 startRot = gameObject.transform.eulerAngles + Vector3.up * fixedRotY;
+
+        startRot += Vector3.left * gameObject.transform.eulerAngles.z;
+        Instantiate(Bullet, startPos, Quaternion.Euler(startRot));
     }
 
     IEnumerator ShotMotion()
     {
+        float motionTime = 0.6f;
         float motionSpeed = 0.05f;
         float timer = 0;
         bool isUp = true;
 
         while (timer >= 0)
         {
-            if (timer > 0.3f)
+            if (timer > motionTime * 0.5f)
             {
                 isUp = false;
             }
@@ -106,13 +123,7 @@ public class Gun : MonoBehaviour
         playerState.animator.SetBool("Shot", false);
     }
 
-    public void ThrowMotion()
-    {
-        //Invoke(nameof(Throwing), 0.5f);
-        Throwing();
-    }
-
-    private void Throwing()
+    public void Throwing()
     {
         StartCoroutine(nameof(ThrowFix));
     }
@@ -138,7 +149,7 @@ public class Gun : MonoBehaviour
         playerState.holdingObj = null;
 
         rb.useGravity = true;
-        rb.AddForce(transform.right * 10, ForceMode.Impulse);
+        rb.AddForce(transform.right * throwPower, ForceMode.Impulse);
         gameObject.GetComponent<MeshCollider>().isTrigger = false;
     }
 
