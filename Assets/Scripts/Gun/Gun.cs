@@ -11,6 +11,7 @@ public class Gun : MonoBehaviour
     public bool isHolded = false;
     public bool isThrowing = false;
 
+    private Camera mainCamera;
     private GameObject player;
     private GameObject playerHand;
     private GameObject handIK;
@@ -18,6 +19,7 @@ public class Gun : MonoBehaviour
     private Rigidbody rb;
     private Transform playerTr;
 
+    private readonly float shotRayLength = 100f;
     private const float throwPower = 10;
     private const float fixedRotY = 90;
     private PlayerState playerState;
@@ -27,6 +29,7 @@ public class Gun : MonoBehaviour
         tr = gameObject.GetComponent<Transform>();
         rb = gameObject.GetComponent<Rigidbody>();
 
+        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
         playerState = PlayerState.GetInstance();
         player = playerState.Player;
         playerTr = player.GetComponent<Transform>();
@@ -93,16 +96,15 @@ public class Gun : MonoBehaviour
     private void FlyBullet()
     {
         Vector3 startPos = gameObject.transform.GetChild(0).position;
-        Vector3 startRot = gameObject.transform.eulerAngles + Vector3.up * fixedRotY;
+        GameObject bullet =  Instantiate(Bullet, startPos, Quaternion.identity);
 
-        startRot += Vector3.left * gameObject.transform.eulerAngles.z;
-        Instantiate(Bullet, startPos, Quaternion.Euler(startRot));
+        bullet.transform.LookAt(GetTarget());
     }
 
     IEnumerator ShotMotion()
     {
-        float motionTime = 0.6f;
-        float motionSpeed = 0.05f;
+        float motionTime = 0.3f;
+        float motionSpeed = 0.1f;
         float timer = 0;
         bool isUp = true;
 
@@ -147,10 +149,29 @@ public class Gun : MonoBehaviour
 
         playerState.isHolding = false;
         playerState.holdingObj = null;
+        gameObject.transform.LookAt(GetTarget());
+        gameObject.transform.Rotate(Vector3.up * -fixedRotY);
 
         rb.useGravity = true;
         rb.AddForce(transform.right * throwPower, ForceMode.Impulse);
         gameObject.GetComponent<MeshCollider>().isTrigger = false;
+    }
+
+    private Vector3 GetTarget()
+    {
+        Vector3 target;
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, shotRayLength))
+        {
+            target = hit.point;
+        }
+        else
+        {
+            target = mainCamera.transform.position + mainCamera.transform.forward * shotRayLength;
+        }
+
+        return target;
     }
 
     private void OnCollisionEnter(Collision collision)

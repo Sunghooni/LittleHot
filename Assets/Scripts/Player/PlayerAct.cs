@@ -4,18 +4,20 @@ using UnityEngine;
 
 public class PlayerAct : MonoBehaviour
 {
-    public MouseCtrl mouseCtrl;
-
+    private Camera mainCamera;
     private PlayerState playerState;
     private Animator animator;
     private GameObject holdingObj;
     private bool isActing;
     private bool isHolding;
+    private bool punched = false;
+    private readonly float shotRayLength = 100f;
 
     private void Awake()
     {
-        animator = gameObject.GetComponent<Animator>();
         playerState = PlayerState.GetInstance();
+        animator = gameObject.GetComponent<Animator>();
+        mainCamera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();
     }
 
     private void Update()
@@ -24,6 +26,7 @@ public class PlayerAct : MonoBehaviour
         isActing = playerState.isActing;
         isHolding = playerState.isHolding;
 
+        CheckPunchType();
         ThrowMotion();
         LeftMouseBtnClick();
     }
@@ -49,8 +52,16 @@ public class PlayerAct : MonoBehaviour
     {
         if (!isHolding)
         {
-            holdingObj = mouseCtrl.ShotRay();
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
+            if (Physics.Raycast(ray, out RaycastHit hit, shotRayLength))
+            {
+                if (hit.transform.TryGetComponent(out Gun gun))
+                {
+                    holdingObj = hit.transform.gameObject;
+                    gun.HoldedToHand();
+                }
+            }
             if (holdingObj != null)
             {
                 playerState.holdingObj = holdingObj;
@@ -62,11 +73,21 @@ public class PlayerAct : MonoBehaviour
 
     private void HitMotion()
     {
-        string hitType = Random.Range(0, 2) == 0 ? "Hit1" : "Hit2";
+        string hitType = !punched ? "Hit1" : "Hit2";
 
         if (!isHolding)
         {
             animator.SetBool(hitType, true);
+        }
+    }
+
+    private void CheckPunchType()
+    {
+        var animation = animator.GetCurrentAnimatorStateInfo(0);
+
+        if (animation.IsTag("Act"))
+        {
+            punched = animation.IsName("Hit1");
         }
     }
 
