@@ -30,4 +30,28 @@ public class PlayerState : MonoBehaviour
 
         return instance;
     }
+
+    private void Update()
+    {
+        CheckActing();
+    }
+
+    private void CheckActing()
+    {
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Act"))
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime <= 1)
+            {
+                isActing = true;
+            }
+            else
+            {
+                isActing = false;
+            }
+        }
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsTag("Motion"))
+        {
+            isActing = false;
+        }
+    }
 }
