@@ -12,6 +12,7 @@ public class PlayerAct : MonoBehaviour
     private bool isHolding;
     private bool punched = false;
     private readonly float shotRayLength = 100f;
+    private readonly float nearAttackLength = 2f;
 
     private void Awake()
     {
@@ -43,8 +44,8 @@ public class PlayerAct : MonoBehaviour
         }
         else
         {
-            animator.SetBool("Hit1", false);
-            animator.SetBool("Hit2", false);
+            string hitType = punched ? "Hit1" : "Hit2";
+            animator.SetBool(hitType, false);
         }
     }
 
@@ -78,6 +79,13 @@ public class PlayerAct : MonoBehaviour
         if (!isHolding)
         {
             animator.SetBool(hitType, true);
+
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit, nearAttackLength))
+            {
+                Debug.Log("Hitted");
+            }
         }
     }
 
