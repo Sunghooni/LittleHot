@@ -4,38 +4,9 @@ using UnityEngine;
 
 public class PlayerView : MonoBehaviour
 {
-    public GameObject Camera;
-
     private Transform handPos;
     private Animator animator;
     private bool releaseIK = false;
-
-    private float mouseY;
-    private float cameraX = 0;
-    private const float rotSpeed = 2;
-
-    public float CameraX
-    {
-        get
-        {
-            cameraX = cameraX <= 0 ? cameraX + 360 : cameraX;
-            cameraX = cameraX > 360 ? cameraX - 360 : cameraX;
-
-            if (cameraX > 30 && cameraX < 180)
-            {
-                cameraX = 30;
-            }
-            else if (cameraX < 330 && cameraX > 180)
-            {
-                cameraX = 330;
-            }
-            return cameraX;
-        }
-        set
-        {
-            cameraX = value;
-        }
-    }
 
     private void Awake()
     {
@@ -45,21 +16,7 @@ public class PlayerView : MonoBehaviour
 
     private void Update()
     {
-        mouseY = Input.GetAxisRaw("Mouse Y");
         CheckActing();
-    }
-
-    private void FixedUpdate()
-    {
-        CameraMove();
-    }
-
-    private void CameraMove()
-    {
-        var cameraRot = gameObject.transform.eulerAngles;
-        CameraX += -mouseY * rotSpeed;
-
-        Camera.transform.eulerAngles = new Vector3(CameraX, cameraRot.y, cameraRot.z);
     }
 
     private void CheckActing()
