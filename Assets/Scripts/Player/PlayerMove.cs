@@ -9,10 +9,8 @@ public class PlayerMove : MonoBehaviour
 
     private int vert;
     private int horz;
-    private float mouseX;
 
     private const int moveSpeed = 2;
-    private const int rotSpeed = 2;
     private const int motionChangeSpeed = 3;
 
     private void Awake()
@@ -31,14 +29,12 @@ public class PlayerMove : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
-        RotatePlayer();
     }
 
     private void GetInput()
     {
         vert = int.Parse(Input.GetAxisRaw("Vertical").ToString());
         horz = int.Parse(Input.GetAxisRaw("Horizontal").ToString());
-        mouseX = Input.GetAxisRaw("Mouse X");
     }
 
     private void MovePlayer()
@@ -48,11 +44,6 @@ public class PlayerMove : MonoBehaviour
 
         gameObject.transform.Translate(Vector3.forward * Time.deltaTime * vertSpeed);
         gameObject.transform.Translate(Vector3.right * Time.deltaTime * horzSpeed);
-    }
-
-    private void RotatePlayer()
-    {
-        gameObject.transform.Rotate(Vector3.up * rotSpeed * mouseX);
     }
 
     private void WalkMotion()

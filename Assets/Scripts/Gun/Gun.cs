@@ -56,8 +56,10 @@ public class Gun : MonoBehaviour
         Vector3 originPos = tr.position;
         Vector3 originRot = tr.eulerAngles;
 
+        isThrowing = false;
         isCatching = true;
         rb.useGravity = false;
+        rb.isKinematic = true;
         playerState.isHolding = true;
         gameObject.GetComponent<MeshCollider>().isTrigger = true;
 
@@ -72,11 +74,13 @@ public class Gun : MonoBehaviour
             tr.position = Vector3.Lerp(originPos, toPos, timer);
             tr.eulerAngles = Vector3.Lerp(originRot, toRot, timer);
 
+            playerState.isActing = true;
             yield return new WaitForFixedUpdate();
         }
 
         isHolded = true;
         isCatching = false;
+        playerState.isActing = false;
     }
 
     private void HoldingToHand()
@@ -153,6 +157,7 @@ public class Gun : MonoBehaviour
         gameObject.transform.Rotate(Vector3.up * -fixedRotY);
 
         rb.useGravity = true;
+        rb.isKinematic = false;
         rb.AddForce(transform.right * throwPower, ForceMode.Impulse);
         gameObject.GetComponent<MeshCollider>().isTrigger = false;
     }
