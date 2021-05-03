@@ -28,16 +28,9 @@ public class MotionChecker : StateMachineBehaviour
         {
             playerState.isActing = true;
         }
-        else if (stateInfo.IsName("AimWalk"))
+        else if (Input.GetAxisRaw("Vertical") != 0 || Input.GetAxisRaw("Horizontal") != 0)
         {
-            if (Input.GetAxisRaw("Vertical") + Input.GetAxisRaw("Horizontal") != 0)
-            {
-                playerState.isActing = true;
-            }
-            else
-            {
-                playerState.isActing = false;
-            }
+            playerState.isActing = true;
         }
         else
         {

@@ -107,22 +107,31 @@ public class Gun : MonoBehaviour
 
     IEnumerator ShotMotion()
     {
-        float motionTime = 0.3f;
+        float motionTime = 0.15f;
         float motionSpeed = 0.1f;
         float timer = 0;
+
+        bool motionPlay = true;
         bool isUp = true;
 
-        while (timer >= 0)
+        while (motionPlay)
         {
-            if (timer > motionTime * 0.5f)
-            {
-                isUp = false;
-            }
-
             var deltaTime = isUp ? Time.deltaTime : -Time.deltaTime;
             timer += deltaTime;
 
-            playerHand.transform.position += Vector3.up * deltaTime * motionSpeed;
+            if (timer > motionTime)
+            {
+                deltaTime = motionTime - (timer - deltaTime);
+                timer = motionTime;
+                isUp = false;
+            }
+            if(timer < 0)
+            {
+                deltaTime = (timer - deltaTime) * -1;
+                motionPlay = false;
+            }
+
+            playerHand.transform.position += transform.up * deltaTime * motionSpeed;
             yield return new WaitForFixedUpdate();
         }
 
@@ -138,6 +147,7 @@ public class Gun : MonoBehaviour
     {
         float timer = 0;
         float delay = 0.5f;
+        float handFollowSpeed = 3f;
         isHolded = false;
         isThrowing = true;
 
@@ -147,7 +157,7 @@ public class Gun : MonoBehaviour
             Vector3 handPos = handIK.transform.position;
 
             timer += Time.deltaTime;
-            gameObject.transform.position = Vector3.Lerp(gunPos, handPos, timer * 3);
+            gameObject.transform.position = Vector3.Lerp(gunPos, handPos, timer * handFollowSpeed);
             yield return new WaitForFixedUpdate();
         }
 
