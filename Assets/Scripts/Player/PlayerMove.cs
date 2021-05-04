@@ -10,7 +10,7 @@ public class PlayerMove : MonoBehaviour
     private int vert;
     private int horz;
 
-    private const int moveSpeed = 2;
+    private const int moveSpeed = 3;
     private const int motionChangeSpeed = 3;
 
     private void Awake()
@@ -39,11 +39,8 @@ public class PlayerMove : MonoBehaviour
 
     private void MovePlayer()
     {
-        int vertSpeed = vert * moveSpeed;
-        int horzSpeed = horz * moveSpeed;
-
-        gameObject.transform.Translate(Vector3.forward * Time.deltaTime * vertSpeed);
-        gameObject.transform.Translate(Vector3.right * Time.deltaTime * horzSpeed);
+        Vector3 movePos = new Vector3(horz, 0, vert).normalized;
+        gameObject.transform.Translate(movePos * moveSpeed * Time.deltaTime);
     }
 
     private void WalkMotion()
