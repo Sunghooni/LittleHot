@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BrockenParts : MonoBehaviour
+public class EnemyMove : MonoBehaviour
 {
-    public GameObject[] bodyParts;
+    
 }

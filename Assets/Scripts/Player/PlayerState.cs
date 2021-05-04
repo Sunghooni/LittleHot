@@ -10,6 +10,7 @@ public class PlayerState : MonoBehaviour
     public GameObject gunAimPos;
     public GameObject gunThrowPos;
     public GameObject holdingObj;
+
     public bool isActing;
     public bool isMotion;
     public bool isRotate;

@@ -10,7 +10,7 @@ public class PlayerRotate : MonoBehaviour
     private float mouseY;
     private float mouseX;
     private float cameraX;
-    private readonly float rotSpeed = 2;
+    private readonly float rotSpeed = 3;
 
     public float CameraX
     {
@@ -54,8 +54,8 @@ public class PlayerRotate : MonoBehaviour
 
     private void GetInput()
     {
-        mouseX = Input.GetAxisRaw("Mouse X");
-        mouseY = Input.GetAxisRaw("Mouse Y");
+        mouseX = Input.GetAxis("Mouse X");
+        mouseY = Input.GetAxis("Mouse Y");
     }
 
     private void RotatePlayer()
@@ -66,6 +66,7 @@ public class PlayerRotate : MonoBehaviour
     private void CameraMove()
     {
         var cameraRot = gameObject.transform.eulerAngles;
+
         CameraX += -mouseY * rotSpeed;
         Camera.transform.eulerAngles = new Vector3(CameraX, cameraRot.y, cameraRot.z);
     }
