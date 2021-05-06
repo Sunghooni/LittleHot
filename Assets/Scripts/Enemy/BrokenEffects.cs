@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BrokenEffects : MonoBehaviour
 {
+    public GameObject brokenEffect;
     public GameObject[] bodyParts;
     private readonly float delayTime = 0.3f;
 
@@ -16,6 +17,9 @@ public class BrokenEffects : MonoBehaviour
         parent.transform.GetChild(0).gameObject.SetActive(false);
         parent.GetComponent<CapsuleCollider>().isTrigger = true;
         parent.GetComponent<Rigidbody>().isKinematic = true;
+
+        //Particle Play
+        brokenEffect.SetActive(true);
 
         //Unity Plysics can't act correctly in changed TimeScale/fixedDeltaTime
         Time.timeScale = 1;
