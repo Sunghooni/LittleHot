@@ -10,7 +10,7 @@ public class TimeManager : MonoBehaviour
     private const float fixingDeltatime = 0.02f; //if you want smoother acts, low this to 0.005f
     private const float normalTimeScale = 1f;
     private const float slowerTimeScale = 0.05f;
-    private const float slowestTimeScale = 0.02f;
+    private const float slowestTimeScale = 0.01f;
 
     private void Awake()
     {

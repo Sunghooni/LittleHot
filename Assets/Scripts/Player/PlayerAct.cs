@@ -11,8 +11,9 @@ public class PlayerAct : MonoBehaviour
     private bool isActing;
     private bool isHolding;
     private bool punched = false;
-    private readonly float shotRayLength = 100f;
-    private readonly float nearAttackLength = 2f;
+
+    private const float shotRayLength = 100f;
+    private const float nearAttackLength = 2f;
 
     private void Awake()
     {
@@ -82,9 +83,9 @@ public class PlayerAct : MonoBehaviour
 
             Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, nearAttackLength))
+            if (Physics.Raycast(ray, out RaycastHit hit, nearAttackLength) && hit.transform.CompareTag("Enemy"))
             {
-                Debug.Log("Hitted");
+                StartCoroutine(InputNearHeatDamage(hitType, hit.transform.gameObject));
             }
         }
     }
@@ -96,6 +97,26 @@ public class PlayerAct : MonoBehaviour
         if (animation.IsTag("Act"))
         {
             punched = animation.IsName("Hit1");
+        }
+    }
+
+    IEnumerator InputNearHeatDamage(string hitType, GameObject hittedObject)
+    {
+        float actionEndTiming = 0.9f;
+
+        while (true)
+        {
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName(hitType))
+            {
+                if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > actionEndTiming)
+                {
+                    EnemyLife _EnemyLife = hittedObject.transform.gameObject.GetComponent<EnemyLife>();
+                    _EnemyLife.isDead = true;
+                    _EnemyLife.deadByGun = false;
+                    break;
+                }
+            }
+            yield return new WaitForFixedUpdate();
         }
     }
 

@@ -9,8 +9,9 @@ public class BrokenEffects : MonoBehaviour
 
     public void ShowBrokenParts()
     {
-        float originalTimeScale = Time.timeScale;
         GameObject parent = gameObject.transform.parent.gameObject;
+        float headFixedPosition = -0.1f;
+        float headFixedRotation = 180;
 
         parent.transform.GetChild(0).gameObject.SetActive(false);
         parent.GetComponent<CapsuleCollider>().isTrigger = true;
@@ -22,6 +23,11 @@ public class BrokenEffects : MonoBehaviour
 
         for (int i = 0; i < bodyParts.Length; i++)
         {
+            if (bodyParts[i].transform.name.Equals("Head"))
+            {
+                bodyParts[i].transform.position += transform.forward * headFixedPosition;
+                bodyParts[i].transform.eulerAngles += transform.up * headFixedRotation;
+            }
             bodyParts[i].SetActive(true);
         }
 

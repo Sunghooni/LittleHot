@@ -11,8 +11,7 @@ public class BrokenMotion : MonoBehaviour
     private bool isMotionplayed = false;
     private float leftHandMovement = 3f;
     private float rightHandMovement = 3f;
-    private float spineRotateX = 45f;
-    private float spineRotateY = 0f;
+    private const float spineRotateX = 45f;
 
     private void Awake()
     {
@@ -23,22 +22,16 @@ public class BrokenMotion : MonoBehaviour
     private void Start()
     {
         float fixedMovement = -2f;
-        float spineYRange = 30;
+        float randomValue = Random.Range(leftHandMovement + fixedMovement, leftHandMovement);
 
-        leftHandMovement = Random.Range(leftHandMovement + fixedMovement, leftHandMovement);
-        rightHandMovement = Random.Range(rightHandMovement + fixedMovement, rightHandMovement);
-        spineRotateY = Random.Range(-spineYRange, spineYRange);
+        leftHandMovement = randomValue;
+        rightHandMovement = randomValue;
     }
 
     private void OnAnimatorIK(int layerIndex)
     {
         if (_EnemyLife.isDead)
         {
-            leftHandMovement = _EnemyLife.deadByGun ? leftHandMovement : -leftHandMovement;
-            rightHandMovement = _EnemyLife.deadByGun ? rightHandMovement : -rightHandMovement;
-
-            spineRotateX = _EnemyLife.deadByGun ? spineRotateX : -spineRotateX;
-
             Vector3 leftHandPos = animator.GetIKPosition(AvatarIKGoal.LeftHand);
             Vector3 rightHandPos = animator.GetIKPosition(AvatarIKGoal.RightHand);
             Vector3 spineRotation = animator.GetBoneTransform(HumanBodyBones.Spine).eulerAngles;
@@ -46,9 +39,9 @@ public class BrokenMotion : MonoBehaviour
             animator.SetIKPositionWeight(AvatarIKGoal.LeftHand, 1);
             animator.SetIKPositionWeight(AvatarIKGoal.RightHand, 1);
 
-            leftHandPos += transform.forward * leftHandMovement + transform.up * leftHandMovement;
-            rightHandPos += transform.forward * rightHandMovement + transform.up * rightHandMovement;
-            spineRotation += transform.right * spineRotateX + transform.up * spineRotateY;
+            leftHandPos += transform.up * leftHandMovement;
+            rightHandPos += transform.up * rightHandMovement;
+            spineRotation += transform.right * spineRotateX;
 
             animator.SetIKPosition(AvatarIKGoal.LeftHand, leftHandPos);
             animator.SetIKPosition(AvatarIKGoal.RightHand, rightHandPos);
