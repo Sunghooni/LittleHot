@@ -5,35 +5,14 @@ using UnityEngine;
 public class PlayerRotate : MonoBehaviour
 {
     public GameObject Camera;
+    public bool isReplaying = false;
+    public float mouseY;
+    public float mouseX;
 
     private PlayerState playerState;
-    private float mouseY;
-    private float mouseX;
     private float cameraX;
-    private readonly float rotSpeed = 3;
-
-    public float CameraX
-    {
-        get
-        {
-            cameraX = cameraX <= 0 ? cameraX + 360 : cameraX;
-            cameraX = cameraX > 360 ? cameraX - 360 : cameraX;
-
-            if (cameraX > 30 && cameraX < 180)
-            {
-                cameraX = 30;
-            }
-            else if (cameraX < 330 && cameraX > 180)
-            {
-                cameraX = 330;
-            }
-            return cameraX;
-        }
-        set
-        {
-            cameraX = value;
-        }
-    }
+    private const float playerRotSpeed = 2;
+    private const float cameraRotSpeed = 1.5f;
 
     private void Awake()
     {
@@ -42,7 +21,10 @@ public class PlayerRotate : MonoBehaviour
 
     private void Update()
     {
-        GetInput();
+        if (!isReplaying)
+        {
+            GetInput();
+        }
         CheckRotate();
     }
 
@@ -60,15 +42,17 @@ public class PlayerRotate : MonoBehaviour
 
     private void RotatePlayer()
     {
-        gameObject.transform.Rotate(Vector3.up * rotSpeed * mouseX);
+        gameObject.transform.Rotate(Vector3.up * playerRotSpeed * mouseX);
     }
 
     private void CameraMove()
     {
-        var cameraRot = gameObject.transform.eulerAngles;
+        float maxRange = 30f;
+        float minRange = -40f;
 
-        CameraX += -mouseY * rotSpeed;
-        Camera.transform.eulerAngles = new Vector3(CameraX, cameraRot.y, cameraRot.z);
+        cameraX += -mouseY * cameraRotSpeed;
+        cameraX = Mathf.Clamp(cameraX, minRange, maxRange);
+        Camera.transform.localEulerAngles = new Vector3(cameraX, 0, 0);
     }
 
     private void CheckRotate()

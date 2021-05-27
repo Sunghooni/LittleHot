@@ -37,7 +37,7 @@ public class Gun : MonoBehaviour
         handIK = playerState.gunThrowPos;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (isHolded)
         {
@@ -74,7 +74,8 @@ public class Gun : MonoBehaviour
             tr.position = Vector3.Lerp(originPos, toPos, timer);
             tr.eulerAngles = Vector3.Lerp(originRot, toRot, timer);
 
-            playerState.isActing = true;
+            Time.timeScale = 1f;
+            Time.fixedDeltaTime = 0.02f;
             yield return new WaitForFixedUpdate();
         }
 
@@ -187,6 +188,18 @@ public class Gun : MonoBehaviour
         }
 
         return target;
+    }
+
+    public void ThrowGunByAttack()
+    {
+        float gunThrowPower = 5f;
+        Rigidbody holdingGunRigid = gameObject.transform.GetComponent<Rigidbody>();
+
+        holdingGunRigid.useGravity = true;
+        holdingGunRigid.isKinematic = false;
+        holdingGunRigid.AddForce(transform.up * gunThrowPower, ForceMode.Impulse);
+
+        gameObject.GetComponent<MeshCollider>().isTrigger = false;
     }
 
     private void OnCollisionEnter(Collision collision)

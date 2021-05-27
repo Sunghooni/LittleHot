@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class BrokenEffects : MonoBehaviour
 {
+    public GameObject holdingGun;
     public GameObject brokenEffect;
     public GameObject[] bodyParts;
-    private readonly float delayTime = 0.3f;
+    private readonly float partsDelay = 0.3f;
+    private readonly float gunThrowPower = 5f;
 
     public void ShowBrokenParts()
     {
@@ -15,8 +17,7 @@ public class BrokenEffects : MonoBehaviour
         float headFixedRotation = 180;
 
         parent.transform.GetChild(0).gameObject.SetActive(false);
-        parent.GetComponent<CapsuleCollider>().isTrigger = true;
-        parent.GetComponent<Rigidbody>().isKinematic = true;
+        Destroy(parent.GetComponent<CapsuleCollider>());
 
         //Particle Play
         brokenEffect.SetActive(true);
@@ -35,7 +36,8 @@ public class BrokenEffects : MonoBehaviour
             bodyParts[i].SetActive(true);
         }
 
-        Invoke(nameof(SetPartsApart), delayTime);
+        ThrowGunByAttack();
+        Invoke(nameof(SetPartsApart), partsDelay);
     }
 
     private void SetPartsApart()
@@ -45,5 +47,33 @@ public class BrokenEffects : MonoBehaviour
             //To make parts free from avatar/animation
             bodyParts[i].transform.SetParent(gameObject.transform.parent);
         }
+
+        StartCoroutine(SetPartsDisappear());
+    }
+
+    private void ThrowGunByAttack()
+    {
+        Rigidbody holdingGunRigid = holdingGun.transform.GetComponent<Rigidbody>();
+        holdingGunRigid.useGravity = true;
+        holdingGunRigid.isKinematic = false;
+        holdingGun.transform.SetParent(null);
+
+        holdingGunRigid.AddForce(transform.up * gunThrowPower, ForceMode.Impulse);
+    }
+
+    IEnumerator SetPartsDisappear()
+    {
+        float disappearDelay = 1f;
+        yield return new WaitForSeconds(disappearDelay);
+
+        for (int i = 0; i < bodyParts.Length; i++)
+        {
+            //To make parts free from avatar/animation
+            bodyParts[i].transform.GetComponent<MeshCollider>().isTrigger = true;
+        }
+
+        yield return new WaitForSeconds(partsDelay);
+
+        Destroy(gameObject.transform.root.gameObject);
     }
 }

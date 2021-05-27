@@ -31,6 +31,11 @@ public class Bullet : MonoBehaviour
             _EnemyLife.isDead = true;
             _EnemyLife.deadByGun = true;
         }
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            PlayerLife _PlayerLife = collision.gameObject.GetComponent<PlayerLife>();
+            _PlayerLife.DeadMotion();
+        }
         Destroy(gameObject);
     }
 }
