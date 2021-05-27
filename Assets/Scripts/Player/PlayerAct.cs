@@ -15,6 +15,10 @@ public class PlayerAct : MonoBehaviour
     private const float shotRayLength = 100f;
     private const float nearAttackLength = 2f;
 
+    public bool isReplaying = false;
+    public bool isLeftButtonClicked = false;
+    public bool isRightButtonClicked = false;
+
     private void Awake()
     {
         playerState = PlayerState.GetInstance();
@@ -28,14 +32,25 @@ public class PlayerAct : MonoBehaviour
         isActing = playerState.isActing;
         isHolding = playerState.isHolding;
 
+        if (!isReplaying)
+        {
+            GetMouseButtonClick();
+        }
+
         CheckPunchType();
         ThrowMotion();
         LeftMouseBtnClick();
     }
 
+    private void GetMouseButtonClick()
+    {
+        isLeftButtonClicked = Input.GetMouseButtonDown(0);
+        isRightButtonClicked = Input.GetMouseButtonDown(1);
+    }
+
     private void LeftMouseBtnClick()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (isLeftButtonClicked)
         {
             if (!GrabGun())
             {
@@ -58,7 +73,7 @@ public class PlayerAct : MonoBehaviour
 
             if (Physics.Raycast(ray, out RaycastHit hit, shotRayLength))
             {
-                if (hit.transform.TryGetComponent(out Gun gun))
+                if (hit.transform.TryGetComponent(out Gun gun) && !gun.isHolded)
                 {
                     holdingObj = hit.transform.gameObject;
                     gun.HoldedToHand();
@@ -80,13 +95,7 @@ public class PlayerAct : MonoBehaviour
         if (!isHolding)
         {
             animator.SetBool(hitType, true);
-
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, nearAttackLength) && hit.transform.CompareTag("Enemy"))
-            {
-                StartCoroutine(InputNearHeatDamage(hitType, hit.transform.gameObject));
-            }
+            StartCoroutine(InputNearHeatDamage(hitType));
         }
     }
 
@@ -100,7 +109,7 @@ public class PlayerAct : MonoBehaviour
         }
     }
 
-    IEnumerator InputNearHeatDamage(string hitType, GameObject hittedObject)
+    IEnumerator InputNearHeatDamage(string hitType)
     {
         float actionEndTiming = 0.9f;
 
@@ -110,9 +119,14 @@ public class PlayerAct : MonoBehaviour
             {
                 if (animator.GetCurrentAnimatorStateInfo(0).normalizedTime > actionEndTiming)
                 {
-                    EnemyLife _EnemyLife = hittedObject.transform.gameObject.GetComponent<EnemyLife>();
-                    _EnemyLife.isDead = true;
-                    _EnemyLife.deadByGun = false;
+                    Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+                    if (Physics.Raycast(ray, out RaycastHit hit, nearAttackLength) && hit.transform.CompareTag("Enemy"))
+                    {
+                        EnemyLife _EnemyLife = hit.transform.gameObject.GetComponent<EnemyLife>();
+                        _EnemyLife.isDead = true;
+                        _EnemyLife.deadByGun = false;
+                    }
                     break;
                 }
             }
@@ -134,7 +148,7 @@ public class PlayerAct : MonoBehaviour
 
     private void ThrowMotion()
     {
-        if (Input.GetMouseButtonDown(1) && holdingObj != null)
+        if (isRightButtonClicked && holdingObj != null)
         {
             if (holdingObj.TryGetComponent(out Gun gun))
             {

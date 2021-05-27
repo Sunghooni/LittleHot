@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TimeManager : MonoBehaviour
 {
+    public bool isReplaying = false;
+
     private PlayerState playerState;
     private float timeScale;
 
@@ -17,10 +19,14 @@ public class TimeManager : MonoBehaviour
         playerState = PlayerState.GetInstance();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         CheckMotionPlaying();
-        ChangeTimeScale();
+
+        if (!isReplaying)
+        {
+            ChangeTimeScale();
+        }
     }
 
     private void CheckMotionPlaying()

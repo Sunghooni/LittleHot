@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerMove : MonoBehaviour
 {
+    public bool isReplaying = false;
+    public int vert;
+    public int horz;
+
     private Animator animator;
     private PlayerState playerState;
-
-    private int vert;
-    private int horz;
-
-    private const int moveSpeed = 3;
+    private const int moveSpeed = 5;
     private const int motionChangeSpeed = 3;
 
     private void Awake()
@@ -21,7 +21,10 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        GetInput();
+        if(!isReplaying)
+        {
+            GetInput();
+        }
         WalkMotion();
         AimWalkMotion();
     }
