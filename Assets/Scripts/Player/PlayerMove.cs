@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        if(!isReplaying)
+        if (!isReplaying)
         {
             GetInput();
         }
@@ -31,7 +31,15 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (!isReplaying)
+        {
+            MovePlayer();
+        }
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        gameObject.transform.position = position;
     }
 
     private void GetInput()

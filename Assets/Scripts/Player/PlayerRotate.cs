@@ -12,7 +12,7 @@ public class PlayerRotate : MonoBehaviour
     private PlayerState playerState;
     private float cameraX;
     private const float playerRotSpeed = 2;
-    private const float cameraRotSpeed = 1.5f;
+    private const float cameraRotSpeed = 1f;
 
     private void Awake()
     {
@@ -30,8 +30,17 @@ public class PlayerRotate : MonoBehaviour
 
     private void FixedUpdate()
     {
-        RotatePlayer();
-        CameraMove();
+        if (!isReplaying)
+        {
+            RotatePlayer();
+            CameraMove();
+        }
+    }
+
+    public void SetRotation(Quaternion playerRot, Quaternion cameraRot)
+    {
+        gameObject.transform.rotation = playerRot;
+        Camera.transform.rotation = cameraRot;
     }
 
     private void GetInput()

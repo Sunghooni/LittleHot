@@ -3,18 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public struct PlayData
-{
-    public int vertInput;
-    public int horzInput;
-    public float mouseX;
-    public float mouseY;
-    public bool leftMouseBtn;
-    public bool rightMouseBtn;
-};
-
 public class RecordPlayData : MonoBehaviour
 {
+    public GameObject player;
+    public GameObject camera;
     public PlayDataSO playDataSO;
     public PlayerMove _PlayerMove;
     public PlayerRotate _PlayerRotate;
@@ -43,25 +35,33 @@ public class RecordPlayData : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        StartCoroutine(nameof(Replay));
+    }
+
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !playDataSO.isReplayMode)
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            playDataSO.isReplayMode = true;
+            playDataSO.isReplayMode = !playDataSO.isReplayMode;
             SceneManager.LoadScene("MainScene");
         }
     }
 
-    private void FixedUpdate()
+    IEnumerator Replay()
     {
-        if (!isReplaying)
+        while (true)
         {
-            RecordData();
-        }
-        else
-        {
-            Debug.Log(Time.timeScale);
-            SetTransform();
+            if (!isReplaying)
+            {
+                RecordData();
+            }
+            else
+            {
+                SetTransform();
+            }
+            yield return new WaitForSeconds(0.0001f / Time.timeScale);
         }
     }
 
@@ -71,8 +71,9 @@ public class RecordPlayData : MonoBehaviour
         {
             vertInput = int.Parse(Input.GetAxisRaw("Vertical").ToString()),
             horzInput = int.Parse(Input.GetAxisRaw("Horizontal").ToString()),
-            mouseX = Input.GetAxis("Mouse X"),
-            mouseY = Input.GetAxis("Mouse Y"),
+            playerPos = player.transform.position,
+            playerRot = player.transform.rotation,
+            cameraRot = camera.transform.rotation,
             leftMouseBtn = Input.GetMouseButtonDown(0),
             rightMouseBtn = Input.GetMouseButtonDown(1)
         };
@@ -90,8 +91,9 @@ public class RecordPlayData : MonoBehaviour
             _PlayerMove.horz = data.horzInput;
             _PlayerAct.isLeftButtonClicked = data.leftMouseBtn;
             _PlayerAct.isRightButtonClicked = data.rightMouseBtn;
-            _PlayerRotate.mouseX = data.mouseX;
-            _PlayerRotate.mouseY = data.mouseY;
+
+            _PlayerMove.SetPosition(data.playerPos);
+            _PlayerRotate.SetRotation(data.playerRot, data.cameraRot);
 
             nowIndex++;
         }
