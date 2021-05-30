@@ -1104,7 +1104,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -2630,7 +2630,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.39215687}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -3273,6 +3273,7 @@ GameObject:
   - component: {fileID: 1870706221}
   - component: {fileID: 1870706222}
   - component: {fileID: 1870706223}
+  - component: {fileID: 1870706224}
   m_Layer: 0
   m_Name: RecordPlayData
   m_TagString: Untagged
@@ -3326,6 +3327,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gunDataSO: {fileID: 11400000, guid: 642f44b1a8474e94390a356b5144ac43, type: 2}
+--- !u!114 &1870706224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870706220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd2a816e4d748ab419279867bb67a8b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyDataSO: {fileID: 11400000, guid: 9b4d5aa1af4d70d4387216369081ef1c, type: 2}
 --- !u!65 &1899161976
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -7100,7 +7114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0e8ed294ba811f42a00b992eff044ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  Player: {fileID: 1223337052161524461}
   Bullet: {fileID: 6424390267389794927, guid: 4a6724c3b5cbcbd41bea52415a948a83, type: 3}
 --- !u!23 &7230467911793517767
 MeshRenderer:

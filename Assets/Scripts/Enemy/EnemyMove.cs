@@ -6,6 +6,7 @@ using UnityEngine.AI;
 public class EnemyMove : MonoBehaviour
 {
     public GameObject gun;
+    public bool isReplay = false;
 
     private EnemyLife _EnemyLife;
     private Animator animator;
@@ -31,6 +32,8 @@ public class EnemyMove : MonoBehaviour
     {
         if (!CheckIsPlayerAimable() && !_EnemyLife.isDead)
         {
+            if (isReplay) return;
+
             MoveToPlayer();
         }
         else if(!_EnemyLife.isDead)

@@ -43,7 +43,6 @@ public class RecordGunData : MonoBehaviour
     {
         GameObject[] objs = GameObject.FindGameObjectsWithTag("Gun");
         gunDataSO.gunList = objs;
-        print(".");
     }
 
     IEnumerator Replay()

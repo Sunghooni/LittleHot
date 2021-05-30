@@ -6,7 +6,7 @@ public struct GunData
 {
     public Vector3 gunPos;
     public Quaternion gunRot;
-}
+};
 
 [CreateAssetMenu]
 public class GunDataSO : ScriptableObject
