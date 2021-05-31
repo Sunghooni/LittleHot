@@ -74,8 +74,8 @@ public class RecordPlayData : MonoBehaviour
             playerPos = player.transform.position,
             playerRot = player.transform.rotation,
             cameraRot = camera.transform.rotation,
-            leftMouseBtn = Input.GetMouseButtonDown(0),
-            rightMouseBtn = Input.GetMouseButtonDown(1)
+            leftMouseBtn = Input.GetMouseButton(0),
+            rightMouseBtn = Input.GetMouseButton(1)
         };
 
         playDataSO.records.Add(data);
