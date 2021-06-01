@@ -5,79 +5,40 @@ using UnityEngine;
 public class RecordEnemyData : MonoBehaviour
 {
     public EnemyDataSO enemyDataSO;
+    public GameObject[] enemys;
     private int nowIndex = 0;
-    private bool isReplaying = false;
 
     private void Awake()
     {
-        if (!enemyDataSO.isReplayMode)
-        {
-            GetEnemys();
-            enemyDataSO.records.Clear();
-        }
-        else
-        {
-            GetEnemys();
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = 0.02f;
-
-            isReplaying = true;
-        }
-    }
-
-    private void Start()
-    {
-        StartCoroutine(nameof(Replay));
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            enemyDataSO.isReplayMode = !enemyDataSO.isReplayMode;
-        }
+        GetEnemys();
     }
 
     private void GetEnemys()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("Enemy");
-        enemyDataSO.enemyList = objs;
+        enemyDataSO.enemyList = enemys;
 
-        if (isReplaying)
+        if (enemyDataSO.isReplayMode)
         {
-            for (int i = 0; i < objs.Length; i++)
+            for (int i = 0; i < enemys.Length; i++)
             {
                 enemyDataSO.enemyList[i].GetComponent<EnemyMove>().isReplay = true;
             }
         }
     }
 
-    IEnumerator Replay()
-    {
-        while (true)
-        {
-            if (!isReplaying)
-            {
-                RecordData();
-            }
-            else
-            {
-                SetTransform();
-            }
-            yield return new WaitForSeconds(0.0001f / Time.timeScale);
-        }
-    }
-
-    private void RecordData()
+    public void RecordData()
     {
         EnemyData[] datas = new EnemyData[enemyDataSO.enemyList.Length];
 
         for (int i = 0; i < enemyDataSO.enemyList.Length; i++)
         {
+            if (enemyDataSO.enemyList[i] == null) continue;
+
             EnemyData data = new EnemyData
             {
                 enemyPos = enemyDataSO.enemyList[i].transform.position,
-                enemyRot = enemyDataSO.enemyList[i].transform.rotation
+                enemyRot = enemyDataSO.enemyList[i].transform.rotation,
+                isShooting = enemyDataSO.enemyList[i].GetComponent<EnemyMove>().isShooting
             };
             datas[i] = data;
         }
@@ -85,7 +46,7 @@ public class RecordEnemyData : MonoBehaviour
         enemyDataSO.records.Add(datas);
     }
 
-    private void SetTransform()
+    public void SetTransform()
     {
         if (nowIndex < enemyDataSO.records.Count)
         {
@@ -93,8 +54,11 @@ public class RecordEnemyData : MonoBehaviour
 
             for (int i = 0; i < enemyDataSO.enemyList.Length; i++)
             {
+                if (enemyDataSO.enemyList[i] == null) continue;
+
                 enemyDataSO.enemyList[i].transform.position = datas[i].enemyPos;
                 enemyDataSO.enemyList[i].transform.rotation = datas[i].enemyRot;
+                enemyDataSO.enemyList[i].GetComponent<EnemyMove>().isShooting = datas[i].isShooting;
             }
 
             nowIndex++;

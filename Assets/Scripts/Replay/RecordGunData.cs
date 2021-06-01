@@ -1,67 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class RecordGunData : MonoBehaviour
 {
     public GunDataSO gunDataSO;
+    public GameObject[] guns;
     private int nowIndex = 0;
-    private bool isReplaying = false;
 
     private void Awake()
     {
-        if (!gunDataSO.isReplayMode)
-        {
-            GetGuns();
-            gunDataSO.records.Clear();
-        }
-        else
-        {
-            GetGuns();
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = 0.02f;
-
-            isReplaying = true;
-        }
-    }
-
-    private void Start()
-    {
-        StartCoroutine(nameof(Replay));
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            gunDataSO.isReplayMode = !gunDataSO.isReplayMode;
-        }
+        GetGuns();
     }
 
     private void GetGuns()
     {
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("Gun");
-        gunDataSO.gunList = objs;
+        gunDataSO.gunList = guns;
     }
 
-    IEnumerator Replay()
-    {
-        while (true)
-        {
-            if (!isReplaying)
-            {
-                RecordData();
-            }
-            else
-            {
-                SetTransform();
-            }
-            yield return new WaitForSeconds(0.0001f / Time.timeScale);
-        }
-    }
-
-    private void RecordData()
+    public void RecordData()
     {
         GunData[] datas = new GunData[gunDataSO.gunList.Length];
 
@@ -78,7 +35,7 @@ public class RecordGunData : MonoBehaviour
         gunDataSO.records.Add(datas);
     }
 
-    private void SetTransform()
+    public void SetTransform()
     {
         if (nowIndex < gunDataSO.records.Count)
         {

@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class RecordPlayData : MonoBehaviour
 {
@@ -14,20 +13,11 @@ public class RecordPlayData : MonoBehaviour
     public TimeManager _TimeManager;
 
     private int nowIndex = 0;
-    private bool isReplaying = false;
 
     private void Awake()
     {
-        if (!playDataSO.isReplayMode)
+        if (playDataSO.isReplayMode)
         {
-            playDataSO.records.Clear();
-        }
-        else
-        {
-            Time.timeScale = 1f;
-            Time.fixedDeltaTime = 0.02f;
-
-            isReplaying = true;
             _PlayerMove.isReplaying = true;
             _PlayerAct.isReplaying = true;
             _PlayerRotate.isReplaying = true;
@@ -35,38 +25,10 @@ public class RecordPlayData : MonoBehaviour
         }
     }
 
-    private void Start()
+    public void RecordData()
     {
-        StartCoroutine(nameof(Replay));
-    }
+        if (player == null) return;
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            playDataSO.isReplayMode = !playDataSO.isReplayMode;
-            SceneManager.LoadScene("MainScene");
-        }
-    }
-
-    IEnumerator Replay()
-    {
-        while (true)
-        {
-            if (!isReplaying)
-            {
-                RecordData();
-            }
-            else
-            {
-                SetTransform();
-            }
-            yield return new WaitForSeconds(0.0001f / Time.timeScale);
-        }
-    }
-
-    private void RecordData()
-    {
         PlayData data = new PlayData
         {
             vertInput = int.Parse(Input.GetAxisRaw("Vertical").ToString()),
@@ -81,7 +43,7 @@ public class RecordPlayData : MonoBehaviour
         playDataSO.records.Add(data);
     }
 
-    private void SetTransform()
+    public void SetTransform()
     {
         if (nowIndex < playDataSO.records.Count)
         {

@@ -6,6 +6,7 @@ public struct EnemyData
 {
     public Vector3 enemyPos;
     public Quaternion enemyRot;
+    public bool isShooting;
 };
 
 [CreateAssetMenu]

@@ -13,6 +13,4 @@ MonoBehaviour:
   m_Name: GunDataSO
   m_EditorClassIdentifier: 
   isReplayMode: 0
-  gunList:
-  - {fileID: 0}
-  - {fileID: 0}
+  gunList: []

@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: EnemyDataSO
   m_EditorClassIdentifier: 
   isReplayMode: 0
-  enemyList:
-  - {fileID: 0}
+  enemyList: []
