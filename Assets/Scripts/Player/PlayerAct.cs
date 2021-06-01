@@ -12,8 +12,8 @@ public class PlayerAct : MonoBehaviour
     private bool isHolding;
     private bool punched = false;
 
-    private const float shotRayLength = 100f;
-    private const float nearAttackLength = 2f;
+    private const int shotRayLength = 100;
+    private const int nearAttackLength = 2;
 
     public bool isReplaying = false;
     public bool isLeftButtonClicked = false;
@@ -69,13 +69,22 @@ public class PlayerAct : MonoBehaviour
     {
         if (!isHolding)
         {
-            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out RaycastHit hit, shotRayLength))
+            Ray ray = new Ray(Camera.main.ScreenToWorldPoint(Input.mousePosition), mainCamera.transform.forward);
+            float searchRange = 0.5f;
+            
+            if (Physics.SphereCast(ray, searchRange, out RaycastHit sphereHit, shotRayLength))
             {
-                if (hit.transform.TryGetComponent(out Gun gun) && !gun.isHolded)
+                if (sphereHit.transform.TryGetComponent(out Gun gun) && !gun.transform.root.CompareTag("Enemy"))
                 {
-                    holdingObj = hit.transform.gameObject;
+                    holdingObj = sphereHit.transform.gameObject;
+                    gun.HoldedToHand();
+                }
+            }
+            if (Physics.Raycast(ray, out RaycastHit rayHit, shotRayLength))
+            {
+                if (rayHit.transform.TryGetComponent(out Gun gun) && !gun.transform.root.CompareTag("Enemy"))
+                {
+                    holdingObj = rayHit.transform.gameObject;
                     gun.HoldedToHand();
                 }
             }

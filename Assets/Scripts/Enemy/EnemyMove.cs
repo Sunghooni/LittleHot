@@ -6,6 +6,8 @@ using UnityEngine.AI;
 public class EnemyMove : MonoBehaviour
 {
     public GameObject gun;
+    public bool isReplay = false;
+    public bool isShooting = false;
 
     private EnemyLife _EnemyLife;
     private Animator animator;
@@ -29,11 +31,30 @@ public class EnemyMove : MonoBehaviour
 
     private void Update()
     {
-        if (!CheckIsPlayerAimable() && !_EnemyLife.isDead)
+        CheckEnemyState();
+    }
+
+    private void CheckEnemyState()
+    {
+        if (_EnemyLife.isDead)
+        {
+            Destroy(gameObject.GetComponent<NavMeshAgent>());
+            return;
+        }
+
+        if (isReplay)
+        {
+            if (isShooting && !animator.GetCurrentAnimatorStateInfo(0).IsName("Shot"))
+            {
+                Attack();
+            }
+        }
+        else if (!CheckIsPlayerAimable() && !_EnemyLife.isDead)
         {
             MoveToPlayer();
+            isShooting = false;
         }
-        else if(!_EnemyLife.isDead)
+        else if (!_EnemyLife.isDead)
         {
             StopMove();
             Attack();
@@ -76,6 +97,7 @@ public class EnemyMove : MonoBehaviour
         if (gun != null && reloadGun)
         {
             gun.GetComponent<GunForEnemy>().ShotGun();
+            isShooting = true;
             reloadGun = false;
             StartCoroutine(nameof(GunReloading));
         }
@@ -89,9 +111,14 @@ public class EnemyMove : MonoBehaviour
     {
         float timer = 0;
         float reloadDelay = 2f;
+        float shootCheck = 0.1f;
 
         while (timer <= reloadDelay)
         {
+            if (timer > shootCheck && isShooting)
+            {
+                isShooting = false;
+            }
             timer += Time.deltaTime;
             yield return new WaitForFixedUpdate();
         }

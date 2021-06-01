@@ -5,23 +5,23 @@ using UnityEngine;
 public class PlayerLife : MonoBehaviour
 {
     public GameObject brokenEffect;
-    public GameObject camera;
+    public GameObject mainCamera;
 
     public void DeadMotion()
     {
         PlayerState.GetInstance().isActing = false;
         PlayerState.GetInstance().isRotate = false;
-        Time.timeScale = 0.5f;
+        Time.timeScale = 0.2f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
 
         brokenEffect.SetActive(true);
         Destroy(gameObject.GetComponent<CapsuleCollider>());
 
         brokenEffect.transform.SetParent(null);
-        camera.transform.SetParent(null);
+        mainCamera.transform.SetParent(null);
 
-        camera.AddComponent<BoxCollider>();
-        camera.AddComponent<Rigidbody>();
+        mainCamera.AddComponent<BoxCollider>();
+        mainCamera.AddComponent<Rigidbody>();
 
         gameObject.SetActive(false);
 

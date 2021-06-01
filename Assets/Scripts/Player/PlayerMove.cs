@@ -21,7 +21,7 @@ public class PlayerMove : MonoBehaviour
 
     private void Update()
     {
-        if(!isReplaying)
+        if (!isReplaying)
         {
             GetInput();
         }
@@ -31,7 +31,17 @@ public class PlayerMove : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
+        if (!isReplaying)
+        {
+            MovePlayer();
+        }
+    }
+
+    public void SetPosition(Vector3 position)
+    {
+        //gameObject.transform.position = position;
+        float lerpProgress = 0.5f;
+        gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, position, lerpProgress);
     }
 
     private void GetInput()
