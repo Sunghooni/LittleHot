@@ -31,5 +31,8 @@ public class PlayerLife : MonoBehaviour
             gun.isHolded = false;
             gun.ThrowGunByAttack();
         }
+
+        Time.timeScale = 1f;
+        Time.fixedDeltaTime = Time.timeScale * 0.02f;
     }
 }
