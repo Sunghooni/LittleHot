@@ -17,6 +17,7 @@ public class Bullet : MonoBehaviour
             //StartCoroutine(SetBulletFlySpeed());
         }
         StartCoroutine(nameof(BulletLifeTimer));
+        StartCoroutine(OncollisionCheck());
     }
 
     private void FixedUpdate()
@@ -41,19 +42,50 @@ public class Bullet : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void BulletHitManage(GameObject collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy"))
         {
-            EnemyLife _EnemyLife = collision.gameObject.GetComponent<EnemyLife>();
+            EnemyLife _EnemyLife = collision.GetComponent<EnemyLife>();
             _EnemyLife.isDead = true;
             _EnemyLife.deadByGun = true;
         }
-        else if (collision.gameObject.CompareTag("Player") && !timeScaleSO.isReplaying)
+        else if (collision.CompareTag("Player") && !timeScaleSO.isReplaying)
         {
-            PlayerLife _PlayerLife = collision.gameObject.GetComponent<PlayerLife>();
+            PlayerLife _PlayerLife = collision.GetComponent<PlayerLife>();
             _PlayerLife.DeadMotion();
         }
         Destroy(gameObject);
+    }
+
+    IEnumerator OncollisionCheck()
+    {
+        Vector3 prePosition = Vector3.zero;
+        Vector3 curPosition = Vector3.zero;
+
+        while (true)
+        {
+            if (prePosition == curPosition)
+            {
+                curPosition = gameObject.transform.position;
+            }
+            else
+            {
+                prePosition = curPosition;
+                curPosition = gameObject.transform.position;
+
+                Vector3 dir = (curPosition - prePosition).normalized;
+                float dist = Vector3.Distance(prePosition, curPosition);
+                
+                if (Physics.Raycast(prePosition, dir, out RaycastHit hit, dist))
+                {
+                    BulletHitManage(hit.transform.gameObject);
+                    break;
+                }
+                Debug.DrawRay(prePosition, dir * dist, Color.red, 10f);
+            }
+
+            yield return new WaitForFixedUpdate();
+        }
     }
 }
