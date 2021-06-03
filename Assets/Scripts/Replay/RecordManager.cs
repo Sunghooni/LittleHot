@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class RecordManager : MonoBehaviour
 {
+    public TimeScaleDataSO timeScaleData;
     public RecordPlayData recordPlayData;
     public RecordEnemyData recordEnemyData;
     public RecordGunData recordGunData;
@@ -13,14 +14,15 @@ public class RecordManager : MonoBehaviour
     {
         if (!recordEnemyData.enemyDataSO.isReplayMode)
         {
+            timeScaleData.timeScaleList.Clear();
             recordPlayData.playDataSO.records.Clear();
             recordGunData.gunDataSO.records.Clear();
-            recordEnemyData.enemyDataSO.records.Clear();
+            recordEnemyData.enemyDataSO.records.Clear(); 
         }
         else
         {
             Time.timeScale = 1f;
-            Time.fixedDeltaTime = 0.02f;
+            Time.fixedDeltaTime = Time.timeScale * 0.02f;
         }
     }
 
@@ -33,11 +35,12 @@ public class RecordManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
+            timeScaleData.isReplaying = !timeScaleData.isReplaying;
             recordPlayData.playDataSO.isReplayMode = !recordPlayData.playDataSO.isReplayMode;
             recordEnemyData.enemyDataSO.isReplayMode = !recordEnemyData.enemyDataSO.isReplayMode;
             recordGunData.gunDataSO.isReplayMode = !recordGunData.gunDataSO.isReplayMode;
 
-            SceneManager.LoadScene("MainScene");
+            SceneManager.LoadScene("PlayScene");
         }
     }
 
@@ -47,6 +50,7 @@ public class RecordManager : MonoBehaviour
         {
             if (!recordEnemyData.enemyDataSO.isReplayMode)
             {
+                timeScaleData.timeScaleList.Add(Time.timeScale);
                 recordPlayData.RecordData();
                 recordEnemyData.RecordData();
                 recordGunData.RecordData();
@@ -57,7 +61,7 @@ public class RecordManager : MonoBehaviour
                 recordPlayData.SetTransform();
                 recordEnemyData.SetTransform();
                 recordGunData.SetTransform();
-                yield return new WaitForSeconds(0.00005f / Time.timeScale);
+                yield return new WaitForSeconds(0.0001f / Time.timeScale);
             }
         }
     }
