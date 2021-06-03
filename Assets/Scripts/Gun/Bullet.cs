@@ -49,7 +49,7 @@ public class Bullet : MonoBehaviour
             _EnemyLife.isDead = true;
             _EnemyLife.deadByGun = true;
         }
-        else if (collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("Player") && !timeScaleSO.isReplaying)
         {
             PlayerLife _PlayerLife = collision.gameObject.GetComponent<PlayerLife>();
             _PlayerLife.DeadMotion();
