@@ -1354,7 +1354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -2963,7 +2963,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.39215687}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7926,6 +7926,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   brokenEffect: {fileID: 1895220400}
   mainCamera: {fileID: 1945346169}
+  timeManager: {fileID: 2260629480297914999}
 --- !u!1 &639850845264918405
 GameObject:
   m_ObjectHideFlags: 0

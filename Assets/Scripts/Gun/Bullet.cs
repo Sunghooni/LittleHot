@@ -55,6 +55,10 @@ public class Bullet : MonoBehaviour
             PlayerLife _PlayerLife = collision.GetComponent<PlayerLife>();
             _PlayerLife.DeadMotion();
         }
+        else if (collision.CompareTag("Player"))
+        {
+            print("hitted");
+        }
         Destroy(gameObject);
     }
 

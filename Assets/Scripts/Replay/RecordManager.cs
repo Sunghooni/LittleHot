@@ -66,3 +66,17 @@ public class RecordManager : MonoBehaviour
         }
     }
 }
+
+/*
+PlayerPos
+PlayerRot
+CameraPos
+CameraRot
+EnemyPos
+EnemyRot
+EnemyState
+GunPos
+GunRot
+BulletPos
+BulletRot
+*/
