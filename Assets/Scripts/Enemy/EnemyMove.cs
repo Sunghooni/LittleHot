@@ -41,23 +41,18 @@ public class EnemyMove : MonoBehaviour
             Destroy(gameObject.GetComponent<NavMeshAgent>());
             return;
         }
-
-        if (isReplay)
+        else if (!isReplay)
         {
-            if (isShooting && !animator.GetCurrentAnimatorStateInfo(0).IsName("Shot"))
+            if (!CheckIsPlayerAimable())
             {
+                MoveToPlayer();
+                isShooting = false;
+            }
+            else
+            {
+                StopMove();
                 Attack();
             }
-        }
-        else if (!CheckIsPlayerAimable() && !_EnemyLife.isDead)
-        {
-            MoveToPlayer();
-            isShooting = false;
-        }
-        else if (!_EnemyLife.isDead)
-        {
-            StopMove();
-            Attack();
         }
     }
 
