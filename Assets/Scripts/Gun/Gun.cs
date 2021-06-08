@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    public GameObject Bullet;
-
     [Header("State")]
     public bool isCatching = false;
     public bool isHolded = false;
@@ -101,9 +99,11 @@ public class Gun : MonoBehaviour
     private void FlyBullet()
     {
         Vector3 startPos = gameObject.transform.GetChild(0).position;
-        GameObject bullet =  Instantiate(Bullet, startPos, Quaternion.identity);
 
+        GameObject bullet = BulletPuller.puller.PullBullet();
+        bullet.transform.position = startPos;
         bullet.transform.LookAt(GetTarget());
+        bullet.SetActive(true);
     }
 
     IEnumerator ShotMotion()

@@ -37,13 +37,6 @@ public class PlayerMove : MonoBehaviour
         }
     }
 
-    public void SetPosition(Vector3 position)
-    {
-        gameObject.transform.position = position;
-        //float lerpProgress = 0.5f;
-        //gameObject.transform.position = Vector3.MoveTowards(gameObject.transform.position, position, lerpProgress);
-    }
-
     private void GetInput()
     {
         vert = int.Parse(Input.GetAxisRaw("Vertical").ToString());
