@@ -4,42 +4,29 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public TimeScaleDataSO timeScaleSO;
-    private float speed = 10f;
-    private int idx = 0;
+    public PlayDataSO playDataSO;
+    private readonly float speed = 10f;
     private readonly float flySpeed = 10f;
     private readonly float lifeTime = 5f;
 
     private void Start()
     {
-        if (timeScaleSO.isReplaying)
-        {
-            //StartCoroutine(SetBulletFlySpeed());
-        }
         StartCoroutine(nameof(BulletLifeTimer));
         StartCoroutine(OncollisionCheck());
     }
 
     private void FixedUpdate()
     {
-        gameObject.transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime);
+        if (!playDataSO.isReplayMode)
+        {
+            gameObject.transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime);
+        }
     }
 
     IEnumerator BulletLifeTimer()
     {
         yield return new WaitForSeconds(lifeTime);
-        Destroy(gameObject);
-    }
-
-    IEnumerator SetBulletFlySpeed()
-    {
-        while (idx < timeScaleSO.timeScaleList.Count)
-        {
-            //speed = Mathf.Lerp(speed, flySpeed * timeScaleSO.timeScaleList[idx], 0.5f);
-            speed = flySpeed * timeScaleSO.timeScaleList[idx];
-            idx++;
-            yield return new WaitForSeconds(0.00005f / Time.timeScale);
-        }
+        gameObject.SetActive(false);
     }
 
     private void BulletHitManage(GameObject collision)
@@ -50,12 +37,16 @@ public class Bullet : MonoBehaviour
             _EnemyLife.isDead = true;
             _EnemyLife.deadByGun = true;
         }
-        else if (collision.CompareTag("Player") && !timeScaleSO.isReplaying)
+        else if (collision.CompareTag("Player") && !playDataSO.isReplayMode)
         {
             PlayerLife _PlayerLife = collision.GetComponent<PlayerLife>();
             _PlayerLife.DeadMotion();
         }
-        Destroy(gameObject);
+        else if (collision.CompareTag("Player"))
+        {
+            print("hitted");
+        }
+        gameObject.SetActive(false);
     }
 
     IEnumerator OncollisionCheck()

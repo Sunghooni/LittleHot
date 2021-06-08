@@ -9,8 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6b522e75db1a15a409e20b37c7b7440f, type: 3}
-  m_Name: TimeScaleDataSO
+  m_Script: {fileID: 11500000, guid: d658d1b9530767d479a87e29df4ad9b7, type: 3}
+  m_Name: DataListSO
   m_EditorClassIdentifier: 
-  isReplaying: 0
-  timeScaleList: []

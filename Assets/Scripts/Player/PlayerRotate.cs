@@ -37,12 +37,6 @@ public class PlayerRotate : MonoBehaviour
         }
     }
 
-    public void SetRotation(Quaternion playerRot, Quaternion cameraRot)
-    {
-        gameObject.transform.rotation = playerRot;
-        Camera.transform.rotation = cameraRot;
-    }
-
     private void GetInput()
     {
         mouseX = Input.GetAxis("Mouse X");

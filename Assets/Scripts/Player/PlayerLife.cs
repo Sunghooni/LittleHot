@@ -6,11 +6,15 @@ public class PlayerLife : MonoBehaviour
 {
     public GameObject brokenEffect;
     public GameObject mainCamera;
+    public GameObject timeManager;
 
     public void DeadMotion()
     {
         PlayerState.GetInstance().isActing = false;
         PlayerState.GetInstance().isRotate = false;
+
+        timeManager.SetActive(false);
+
         Time.timeScale = 0.2f;
         Time.fixedDeltaTime = Time.timeScale * 0.02f;
 
@@ -31,8 +35,5 @@ public class PlayerLife : MonoBehaviour
             gun.isHolded = false;
             gun.ThrowGunByAttack();
         }
-
-        Time.timeScale = 1f;
-        Time.fixedDeltaTime = Time.timeScale * 0.02f;
     }
 }
