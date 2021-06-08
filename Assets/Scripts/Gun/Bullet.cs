@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
-    public PlayDataSO playDataSO;
+    public PlayModeSO playModeSO;
     private readonly float speed = 10f;
     private readonly float flySpeed = 10f;
     private readonly float lifeTime = 5f;
@@ -17,7 +17,7 @@ public class Bullet : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!playDataSO.isReplayMode)
+        if (!playModeSO.isReplayMode)
         {
             gameObject.transform.Translate(new Vector3(0, 0, 1) * speed * Time.deltaTime);
         }
@@ -37,7 +37,7 @@ public class Bullet : MonoBehaviour
             _EnemyLife.isDead = true;
             _EnemyLife.deadByGun = true;
         }
-        else if (collision.CompareTag("Player") && !playDataSO.isReplayMode)
+        else if (collision.CompareTag("Player") && !playModeSO.isReplayMode)
         {
             PlayerLife _PlayerLife = collision.GetComponent<PlayerLife>();
             _PlayerLife.DeadMotion();

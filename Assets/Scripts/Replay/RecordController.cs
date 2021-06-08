@@ -5,17 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class RecordController : MonoBehaviour
 {
-    public PlayDataSO playDataSO;
+    public PlayModeSO playModeSO;
     public RecordData recordData;
     public ReplayData replayData;
 
     private void Awake()
     {
-        if (!playDataSO.isReplayMode)
+        if (!playModeSO.isReplayMode)
         {
             recordData.BasicSetting();
         }
-        if (playDataSO.isReplayMode)
+        if (playModeSO.isReplayMode)
         {
             Time.timeScale = 1f;
             Time.fixedDeltaTime = Time.timeScale * 0.02f;
@@ -28,7 +28,7 @@ public class RecordController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            playDataSO.isReplayMode = !playDataSO.isReplayMode;
+            playModeSO.isReplayMode = !playModeSO.isReplayMode;
             SceneManager.LoadScene("PlayScene");
         }
     }
