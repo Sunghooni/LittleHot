@@ -17,9 +17,12 @@ public class GunForEnemy : MonoBehaviour
     {
         Vector3 startPos = gameObject.transform.GetChild(0).position;
         GameObject bullet = BulletPuller.puller.PullBullet();
+
         bullet.transform.position = startPos;
         bullet.transform.LookAt(GetTarget());
         bullet.SetActive(true);
+
+        AudioManager.instance.PlaySound("EnemyGunFireSFX", gameObject);
     }
 
     IEnumerator ShotMotion()

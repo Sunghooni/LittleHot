@@ -7,6 +7,7 @@ public class ReplayData : MonoBehaviour
     public DataListSO dataListSO;
     public InGameObjects inGameObjects;
     public TimeManager timeManager;
+    public PlayerAct playerAct;
 
     private GameObject player;
     private Animator playerAnimator;
@@ -33,6 +34,7 @@ public class ReplayData : MonoBehaviour
         //set Player cannot move by input
         player.GetComponent<PlayerMove>().isReplaying = true;
         player.GetComponent<PlayerRotate>().isReplaying = true;
+        playerAct.isReplaying = true;
 
         //fix timescale to 1
         timeManager.isReplaying = true;
@@ -59,6 +61,7 @@ public class ReplayData : MonoBehaviour
             SetEnemyData();
             SetGunData();
             SetBulletData();
+            SetAudioData();
 
             idx++;
             yield return new WaitForSeconds(0.0005f / Time.timeScale);
@@ -125,6 +128,20 @@ public class ReplayData : MonoBehaviour
             bulletList[i].SetActive(data[i].isActive);
             bulletList[i].transform.position = data[i].position;
             bulletList[i].transform.rotation = data[i].rotation;
+        }
+    }
+
+    private void SetAudioData()
+    {
+        List<AudioDataStruct> list = dataListSO.audioRecord[idx];
+
+        if (list.Count == 0) return;
+
+        for (int i = 0; i < list.Count; i++)
+        {
+            GameObject source = GameObject.Find(list[i].source);
+
+            AudioManager.instance.PlaySound(list[i].clipName, source);
         }
     }
 }

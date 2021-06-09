@@ -14,6 +14,8 @@ public class DataListSO : ScriptableObject
     public List<GunDataStruct[]> gunRecord = new List<GunDataStruct[]>();
 
     public List<BulletDataStruct[]> bulletRecord = new List<BulletDataStruct[]>();
+
+    public List<List<AudioDataStruct>> audioRecord = new List<List<AudioDataStruct>>();
 }
 
 public struct PlayerDataStruct
@@ -49,4 +51,10 @@ public struct BulletDataStruct
     public Vector3 position;
     public Quaternion rotation;
     public bool isActive;
+};
+
+public struct AudioDataStruct
+{
+    public string clipName;
+    public string source;
 };

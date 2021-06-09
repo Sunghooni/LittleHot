@@ -10,6 +10,7 @@ public class PlayerLife : MonoBehaviour
 
     public void DeadMotion()
     {
+        AudioManager.instance.PlaySound("BrokenSFX", mainCamera);
         PlayerState.GetInstance().isActing = false;
         PlayerState.GetInstance().isRotate = false;
 

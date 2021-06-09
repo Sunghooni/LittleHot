@@ -31,20 +31,18 @@ public class Bullet : MonoBehaviour
 
     private void BulletHitManage(GameObject collision)
     {
+        if (playModeSO.isReplayMode) return;
+
         if (collision.CompareTag("Enemy"))
         {
             EnemyLife _EnemyLife = collision.GetComponent<EnemyLife>();
             _EnemyLife.isDead = true;
             _EnemyLife.deadByGun = true;
         }
-        else if (collision.CompareTag("Player") && !playModeSO.isReplayMode)
+        else if (collision.CompareTag("Player"))
         {
             PlayerLife _PlayerLife = collision.GetComponent<PlayerLife>();
             _PlayerLife.DeadMotion();
-        }
-        else if (collision.CompareTag("Player"))
-        {
-            print("hitted");
         }
         gameObject.SetActive(false);
     }
