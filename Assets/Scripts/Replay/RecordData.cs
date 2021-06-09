@@ -32,6 +32,7 @@ public class RecordData : MonoBehaviour
         dataListSO.enemyRecord.Clear();
         dataListSO.gunRecord.Clear();
         dataListSO.bulletRecord.Clear();
+        dataListSO.audioRecord.Clear();
 
         StartCoroutine(SaveData());
     }
@@ -47,6 +48,7 @@ public class RecordData : MonoBehaviour
             SaveEnemyData();
             SaveGunData();
             SaveBulletData();
+            SaveAudioData();
 
             yield return new WaitForSeconds(0.0005f / Time.timeScale);
         }
@@ -145,5 +147,11 @@ public class RecordData : MonoBehaviour
         }
 
         dataListSO.bulletRecord.Add(array);
+    }
+
+    private void SaveAudioData()
+    {
+        dataListSO.audioRecord.Add(new List<AudioDataStruct>(AudioManager.instance.list));
+        AudioManager.instance.list.Clear();
     }
 }

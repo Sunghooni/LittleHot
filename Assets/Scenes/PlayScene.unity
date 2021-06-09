@@ -1528,6 +1528,12 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5248937687556033007, guid: 93e215d66b875fb4aa921ad61be6a25a,
+        type: 3}
+      propertyPath: playModeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b5eb2f635ea676c408acd52c7e433cb8,
+        type: 2}
     - target: {fileID: 6931862413229913712, guid: 93e215d66b875fb4aa921ad61be6a25a,
         type: 3}
       propertyPath: m_Name
@@ -1622,6 +1628,12 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5248937687556033007, guid: 93e215d66b875fb4aa921ad61be6a25a,
+        type: 3}
+      propertyPath: playModeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b5eb2f635ea676c408acd52c7e433cb8,
+        type: 2}
     - target: {fileID: 6931862413229913712, guid: 93e215d66b875fb4aa921ad61be6a25a,
         type: 3}
       propertyPath: m_Name
@@ -1722,6 +1734,12 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5248937687556033007, guid: 93e215d66b875fb4aa921ad61be6a25a,
+        type: 3}
+      propertyPath: playModeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b5eb2f635ea676c408acd52c7e433cb8,
+        type: 2}
     - target: {fileID: 6931862413229913712, guid: 93e215d66b875fb4aa921ad61be6a25a,
         type: 3}
       propertyPath: m_Name
@@ -4146,6 +4164,12 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5248937687556033007, guid: 93e215d66b875fb4aa921ad61be6a25a,
+        type: 3}
+      propertyPath: playModeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b5eb2f635ea676c408acd52c7e433cb8,
+        type: 2}
     - target: {fileID: 6931862413229913712, guid: 93e215d66b875fb4aa921ad61be6a25a,
         type: 3}
       propertyPath: m_Name
@@ -5615,6 +5639,12 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5248937687556033007, guid: 93e215d66b875fb4aa921ad61be6a25a,
+        type: 3}
+      propertyPath: playModeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b5eb2f635ea676c408acd52c7e433cb8,
+        type: 2}
     - target: {fileID: 6931862413229913712, guid: 93e215d66b875fb4aa921ad61be6a25a,
         type: 3}
       propertyPath: m_Name
@@ -10723,6 +10753,7 @@ MonoBehaviour:
   dataListSO: {fileID: 11400000, guid: 9b3321b99c8f4774fbeab67662395edf, type: 2}
   inGameObjects: {fileID: 1693088609}
   timeManager: {fileID: 3531350213651272352}
+  playerAct: {fileID: 1223337052161524465}
 --- !u!114 &1599914480
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15623,6 +15654,12 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5248937687556033007, guid: 93e215d66b875fb4aa921ad61be6a25a,
+        type: 3}
+      propertyPath: playModeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b5eb2f635ea676c408acd52c7e433cb8,
+        type: 2}
     - target: {fileID: 6931862413229913712, guid: 93e215d66b875fb4aa921ad61be6a25a,
         type: 3}
       propertyPath: m_Name
@@ -15985,6 +16022,12 @@ PrefabInstance:
       propertyPath: m_CollisionDetection
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5248937687556033007, guid: 93e215d66b875fb4aa921ad61be6a25a,
+        type: 3}
+      propertyPath: playModeSO
+      value: 
+      objectReference: {fileID: 11400000, guid: b5eb2f635ea676c408acd52c7e433cb8,
+        type: 2}
     - target: {fileID: 6931862413229913712, guid: 93e215d66b875fb4aa921ad61be6a25a,
         type: 3}
       propertyPath: m_Name

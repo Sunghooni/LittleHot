@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BrokenMotion : MonoBehaviour
 {
+    public PlayModeSO playModeSO;
     public GameObject bodyParts;
     private Animator animator;
     private EnemyLife _EnemyLife;
@@ -50,6 +51,11 @@ public class BrokenMotion : MonoBehaviour
             if (!isMotionplayed)
             {
                 bodyParts.GetComponent<BrokenEffects>().ShowBrokenParts();
+
+                if (!playModeSO.isReplayMode)
+                {
+                    AudioManager.instance.PlaySound("BrokenSFX", gameObject);
+                }
             }
             isMotionplayed = true;
         }

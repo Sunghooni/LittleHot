@@ -61,6 +61,8 @@ public class Gun : MonoBehaviour
         playerState.isHolding = true;
         gameObject.GetComponent<MeshCollider>().isTrigger = true;
 
+        AudioManager.instance.PlaySound("GrabGunSFX", gameObject);
+
         while (timer <= 1f)
         {
             timer += Time.deltaTime * 2;
