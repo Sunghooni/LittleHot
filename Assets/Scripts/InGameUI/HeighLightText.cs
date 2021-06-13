@@ -12,41 +12,36 @@ public class HeighLightText : MonoBehaviour
     public GameObject heighlightCanvas;
     public TextMeshProUGUI heighlightText;
     public Volume UIvolume;
-    
+
+    private bool stopTime = true;
     private LensDistortion lens;
-    private const string super = "SUPER";
-    private const string hot = "HOT";
-    private const string killThemAll = "KILL\nTHEM\nALL";
+
+    public readonly string killThemAll = "KILL\nTHEM\nALL";
+    public readonly string super = "SUPER";
+    public readonly string hot = "HOT";
+    public readonly string shoot = "SHOOT";
+    public readonly string faster = "FASTER";
 
     private void Awake()
     {
         UIvolume.profile.TryGet(out lens);
     }
 
-    private void Update()
+    public void StartShowText(params string[] texts)
     {
-        StartShowText();
-    }
+        defaultPostProcessing.SetActive(false);
+        heighlightCanvas.SetActive(true);
+        defaultCanvas.SetActive(false);
 
-    private void StartShowText()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            defaultPostProcessing.SetActive(false);
-            heighlightCanvas.SetActive(true);
-            defaultCanvas.SetActive(false);
-
-            StartCoroutine(SetText(super, hot));
-            //StartCoroutine(SetText(killThemAll));
-        }
+        StartCoroutine(SetText(texts));
     }
 
     IEnumerator SetText(params string[] texts)
     {
         float preTimeScale = Time.timeScale;
         float delay = 1f;
-        
-        Time.timeScale = 0;
+
+        StartCoroutine(SetGameStop());
 
         for (int i = 0; i < texts.Length; i++)
         {
@@ -60,7 +55,9 @@ public class HeighLightText : MonoBehaviour
         defaultCanvas.SetActive(true);
         heighlightCanvas.SetActive(false);
 
+        stopTime = false;
         Time.timeScale = preTimeScale;
+        Time.fixedDeltaTime = preTimeScale * 0.02f;
     }
 
     IEnumerator ShowTextEffects()
@@ -77,6 +74,17 @@ public class HeighLightText : MonoBehaviour
         {
             timer += Time.deltaTime;
             lens.intensity.value = Mathf.Lerp(lens.intensity.value, toIntens, lerpSpeed);
+            yield return null;
+        }
+    }
+
+    IEnumerator SetGameStop()
+    {
+        stopTime = true;
+
+        while (stopTime)
+        {
+            Time.timeScale = 0;
             yield return null;
         }
     }
