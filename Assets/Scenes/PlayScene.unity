@@ -9626,11 +9626,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'KILL
-
-    THEM
-
-    ALL'
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -11299,6 +11295,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: aa551f50d4e301a41b71dcbdaaecc3eb, type: 3}
   - {fileID: 8300000, guid: bcf6f327bf0595346b575c7903616d29, type: 3}
   - {fileID: 8300000, guid: f1036231000232f439564a9f194fe126, type: 3}
+  - {fileID: 8300000, guid: 17fd76566d20de745a3f2aad8a44bf12, type: 3}
+  - {fileID: 8300000, guid: 5c7682ddf7907f24297c5af8a05ba944, type: 3}
 --- !u!4 &1495203004
 Transform:
   m_ObjectHideFlags: 0

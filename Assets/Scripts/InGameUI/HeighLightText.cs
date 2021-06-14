@@ -29,6 +29,7 @@ public class HeighLightText : MonoBehaviour
 
     public void StartShowText(params string[] texts)
     {
+        heighlightText.text = "";
         defaultPostProcessing.SetActive(false);
         heighlightCanvas.SetActive(true);
         defaultCanvas.SetActive(false);
@@ -36,16 +37,30 @@ public class HeighLightText : MonoBehaviour
         StartCoroutine(SetText(texts));
     }
 
+    private void PlayInGameSFX(string text)
+    {
+        if (text.Equals(super))
+        {
+            AudioManager.instance.PlaySound("SUPER", PlayerState.GetInstance().Player);
+        }
+        if (text.Equals(hot))
+        {
+            AudioManager.instance.PlaySound("HOT", PlayerState.GetInstance().Player);
+        }
+    }
+
     IEnumerator SetText(params string[] texts)
     {
         float preTimeScale = Time.timeScale;
-        float delay = 1f;
+        float delay = 2f / texts.Length;
 
+        yield return new WaitForSecondsRealtime(0.1f);
         StartCoroutine(SetGameStop());
 
         for (int i = 0; i < texts.Length; i++)
         {
             heighlightText.text = texts[i];
+            PlayInGameSFX(texts[i]);
             StartCoroutine(ShowTextEffects());
             
             yield return new WaitForSecondsRealtime(delay);
@@ -84,7 +99,11 @@ public class HeighLightText : MonoBehaviour
 
         while (stopTime)
         {
-            Time.timeScale = 0;
+            if (Time.timeScale != 0)
+            {
+                Time.timeScale = 0f;
+                Time.fixedDeltaTime = 0f;
+            }
             yield return null;
         }
     }
