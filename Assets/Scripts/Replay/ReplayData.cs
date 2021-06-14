@@ -64,6 +64,11 @@ public class ReplayData : MonoBehaviour
             SetAudioData();
 
             idx++;
+            
+            while (Time.timeScale == 0)
+            {
+                yield return null;
+            }
             yield return new WaitForSeconds(0.0005f / Time.timeScale);
         }
     }

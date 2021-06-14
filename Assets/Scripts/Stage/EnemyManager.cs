@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
             SetEnemyAcive();
             SetEnemyAcive();
 
-            StartCoroutine(EnemyInstantAlert());
+            //StartCoroutine(EnemyInstantAlert());
             yield return new WaitForSeconds(waveDelay);
         }
     }
