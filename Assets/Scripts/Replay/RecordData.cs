@@ -66,8 +66,8 @@ public class RecordData : MonoBehaviour
         {
             position = player.transform.position,
             rotation = player.transform.rotation,
-            isPunching1 = playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Hit1"),
-            isPunching2 = playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Hit2")
+            isPunching1 = playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Hit1") && playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f,
+            isPunching2 = playerAnimator.GetCurrentAnimatorStateInfo(0).IsName("Hit2") && playerAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f
         };
 
         dataListSO.playerRecord.Add(playerInfo);
