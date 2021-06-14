@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerLife : MonoBehaviour
 {
+    public HeighLightText heighlightText;
     public GameObject brokenEffect;
     public GameObject mainCamera;
     public GameObject timeManager;
@@ -36,5 +38,18 @@ public class PlayerLife : MonoBehaviour
             gun.isHolded = false;
             gun.ThrowGunByAttack();
         }
+
+        Invoke(nameof(ShowIgnoreText), 1f);
+        Invoke(nameof(ReloadScene), 1.1f);
+    }
+
+    private void ReloadScene()
+    {
+        SceneManager.LoadScene("PlayScene");
+    }
+
+    private void ShowIgnoreText()
+    {
+        heighlightText.StartShowText(heighlightText.focusOnIdiot);
     }
 }
