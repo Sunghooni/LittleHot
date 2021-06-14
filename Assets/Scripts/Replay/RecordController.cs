@@ -23,13 +23,4 @@ public class RecordController : MonoBehaviour
             replayData.BasicSetting();
         }
     }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            playModeSO.isReplayMode = !playModeSO.isReplayMode;
-            SceneManager.LoadScene("PlayScene");
-        }
-    }
 }

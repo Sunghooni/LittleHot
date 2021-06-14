@@ -17,6 +17,7 @@ public class HeighLightText : MonoBehaviour
     private LensDistortion lens;
 
     public readonly string killThemAll = "KILL\nTHEM\nALL";
+    public readonly string focusOnIdiot = "FOCUS\nON,\nIDIOT";
     public readonly string super = "SUPER";
     public readonly string hot = "HOT";
     public readonly string shoot = "SHOOT";
@@ -46,6 +47,10 @@ public class HeighLightText : MonoBehaviour
         if (text.Equals(hot))
         {
             AudioManager.instance.PlaySound("HOT", PlayerState.GetInstance().Player);
+        }
+        else
+        {
+            AudioManager.instance.PlaySound("Chapter", gameObject);
         }
     }
 

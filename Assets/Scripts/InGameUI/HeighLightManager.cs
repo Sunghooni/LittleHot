@@ -8,7 +8,9 @@ public class HeighLightManager : MonoBehaviour
     public HeighLightText heighlightText;
     public GameObject[] enemys;
 
-    private float deadCount = 0;
+    [HideInInspector]
+    public float deadCount = 0;
+
     private bool playFirstText = false;
     private List<EnemyLife> enemyLifes = new List<EnemyLife>();
     private List<int> heighlights = new List<int>();

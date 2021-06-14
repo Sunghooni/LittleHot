@@ -75,7 +75,10 @@ public class AudioManager : MonoBehaviour
         {
             sourceObj.AddComponent<AudioSource>();
         }
+        if (!clipName.Equals("SUPER") && !clipName.Equals("HOT") && !clipName.Equals("Chapter"))
+        {
+            audioSources.Add(sourceObj.GetComponent<AudioSource>());
+        }
         sourceObj.GetComponent<AudioSource>().PlayOneShot(FindAudioClip(clipName));
-        audioSources.Add(sourceObj.GetComponent<AudioSource>());
     }
 }
